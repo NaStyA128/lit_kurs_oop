@@ -1,90 +1,184 @@
-class Furniture(object):
+class Properties:
 
     material = None
     length = None
     width = None
+    coordinate = {'top_left': None,
+                  'bottom_right': None}
 
-    def __init__(self, material, length, width):
-        self.material = material
-        self.length = length
-        self.width = width
+    def __init__(self, **kwargs):
+        self.material = kwargs['material']
+        self.coordinate = kwargs['coordinate']
+        x = kwargs['coordinate']['bottom_right'][0] - kwargs['coordinate']['top_left'][0]
+        y = kwargs['coordinate']['bottom_right'][1] - kwargs['coordinate']['top_left'][1]
+        self.length = x
+        self.width = y
+
+
+class Furniture(Properties, object):
+
+    def __init__(self, **kwargs):
+        Properties.__init__(self, **kwargs)
 
 
 class Bed(Furniture):
 
-    linen = None
+    linen = None    # белье
+    mattress = None    # матрац
 
-    def __init__(self, linen):
-        self.linen = linen
+    def __init__(self, **kwargs):
+        Furniture.__init__(self, **kwargs)
+        self.linen = kwargs['linen']
+        self.mattress = kwargs['mattress']
 
 
 class Table(Furniture):
 
-    number_of_legs = None
+    number_of_legs = None    # количество ножек
+    coating = None    # покрытие
 
-    def __init__(self, number_of_legs):
-        self.number_of_legs = number_of_legs
+    def __init__(self, *kwargs):
+        Furniture.__init__(self, **kwargs)
+        self.number_of_legs = kwargs['number_of_legs']
+        self.coating = kwargs['coating']
 
 
 class Cupboard(Furniture):
-    pass
+
+    number_of_shelves = None    # количество полок
+    coating = None    # покрытие
+
+    def __init__(self, **kwargs):
+        Furniture.__init__(self, **kwargs)
+        self.number_of_shelves = kwargs['number_of_shelves']
+        self.coating = kwargs['coating']
 
 
 class Chair(Furniture):
-    pass
+
+    upholstery = None    # обивка
+    number_of_legs = None    # количество ножек
+
+    def __init__(self, **kwargs):
+        Furniture.__init__(self, **kwargs)
+        self.upholstery = kwargs['upholstery']
+        self.number_of_legs = kwargs['number_of_legs']
 
 
 class Nightstand(Furniture):
-    pass
+
+    coating = None    # покрытие
+    number_of_boxes = None    # количество ящиков
+
+    def __init__(self, **kwargs):
+        Furniture.__init__(self, **kwargs)
+        self.coating = kwargs['coating']
+        self.number_of_boxes = kwargs['number_of_boxes']
 
 
-class Appliances(object):
+class Appliances(Properties, object):
 
-    category = None
-    length = None
-    width = None
+    category = None    # категория
+    provider = None    # производитель
 
-    def __init__(self, category, length, width):
-        self.category = category
-        self.length = length
-        self.width = width
+    def __init__(self, **kwargs):
+        self.category = kwargs['category']
+        self.provider = kwargs['provider']
 
 
 class Refrigerator(Appliances):
-    pass
+
+    type = None    # двухкамерный, морозилка
+    max_temp = None
+    min_temp = None
+    capacity = None    # вместимость
+
+    def __init__(self, **kwargs):
+        Appliances.__init__(self, **kwargs)
+        self.type = kwargs['type']
+        self.max_temp = kwargs['max_temp']
+        self.min_temp = kwargs['min_temp']
+        self.capacity = kwargs['capacity']
 
 
 class Microwave(Appliances):
-    pass
+
+    power = None    # мощность
+
+    def __init__(self, **kwargs):
+        Appliances.__init__(self, **kwargs)
+        self.power = kwargs['power']
+        self.clock = kwargs['clock']
+
+
+class Stove(Appliances):
+
+    type = None    # электронная, газовая
+    number_of_burners = None    # количество конфорок
+    oven = None    # духовка
+
+    def __init__(self, **kwargs):
+        Appliances.__init__(self, **kwargs)
+        self.type = kwargs['type']
+        self.number_of_burners = kwargs['number_of_burners']
+        self.oven = kwargs['oven']
 
 
 class Bath(Appliances):
-    pass
+
+    volume = None
+    shower = None    # душ
+
+    def __init__(self, **kwargs):
+        Appliances.__init__(self, **kwargs)
+        self.volume = kwargs['volume']
+        self.shower = kwargs['shower']
 
 
 class Sink(Appliances):
-    pass
+
+    mixer = None    # смеситель
+    mirror = None    # зеркало
+
+    def __init__(self, **kwargs):
+        Appliances.__init__(self, **kwargs)
+        self.mirror = kwargs['mirror']
+        self.mixer = kwargs['mixer']
 
 
 class Toilet(Appliances):
-    pass
+
+    cover = None    # крышка
+
+    def __init__(self, **kwargs):
+        Appliances.__init__(self, **kwargs)
+        self.cover = kwargs['cover']
 
 
-class Room(object):
+class Windows(Properties, object):
+
+    type = None    # окно / дверь
+
+    def __init__(self, **kwargs):
+        Properties.__init__(self, **kwargs)
+        self.type = kwargs['type']
+
+
+class Room(Properties, object):
 
     furniture = None
-    windows = []
-    doors = []
-    size = []
+    windows = None
+    height = None
 
-    def __init__(self, furniture, windows, doors, size=[0, 0, 0]):
-        self.furniture = furniture
-        self.windows = windows
-        self.doors = doors
-        self.size = size
+    def __init__(self, **kwargs):
+        Properties.__init__(self, **kwargs)
+        self.furniture = kwargs['furniture']
+        self.windows = kwargs['windows']
+        self.height = kwargs['height']
 
+    @property
     def volume(self):
-        return self.size[0]*self.size[1]*self.size[2]
+        return self.length * self.width * self.height
 
 
 class Kitchen(Room):
@@ -107,5 +201,37 @@ class House(object):
 
     rooms = None
 
+    def __init__(self, **kwargs):
+        self.rooms = kwargs['rooms']
+
+    @property
+    def total_volume(self):
+        return sum([room.volume for room in self.rooms])
 
 
+house = House(rooms=[
+    Kitchen(furniture=[
+        Refrigerator(type='cool',
+                     max_temp=5,
+                     min_temp=-5,
+                     capacity=100,
+                     material='metal',
+                     coordinate={'top_left': (0, 0),
+                                 'bottom_right': (100, 80)},
+                     category='Kitchen',
+                     provider='Beko')
+        ],
+        windows=[
+            Windows(type='window',
+                    material='glass',
+                    coordinate={'top_left': (0, 0),
+                                'bottom_right': (100, 80)})
+        ],
+        height=300,
+        material='brick',
+        coordinate={'top_left': (0, 0),
+                    'bottom_right': (600, 600)}
+    )
+])
+
+print(house.total_volume)
