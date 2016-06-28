@@ -7,18 +7,18 @@ class Properties:
                   'bottom_right': None}
 
     def __init__(self, **kwargs):
-        self.material = kwargs['material']
-        self.coordinate = kwargs['coordinate']
-        x = kwargs['coordinate']['bottom_right'][0] - kwargs['coordinate']['top_left'][0]
-        y = kwargs['coordinate']['bottom_right'][1] - kwargs['coordinate']['top_left'][1]
+        self.material = kwargs.pop('material')
+        self.coordinate = kwargs.pop('coordinate')
+        x = self.coordinate['bottom_right'][0] - self.coordinate['top_left'][0]
+        y = self.coordinate['bottom_right'][1] - self.coordinate['top_left'][1]
         self.length = x
         self.width = y
 
 
-class Furniture(Properties, object):
+class Furniture(Properties):
 
     def __init__(self, **kwargs):
-        Properties.__init__(self, **kwargs)
+        super().__init__(**kwargs)
 
 
 class Bed(Furniture):
@@ -27,9 +27,9 @@ class Bed(Furniture):
     mattress = None    # матрац
 
     def __init__(self, **kwargs):
-        Furniture.__init__(self, **kwargs)
-        self.linen = kwargs['linen']
-        self.mattress = kwargs['mattress']
+        self.linen = kwargs.pop('linen')
+        self.mattress = kwargs.pop('mattress')
+        super().__init__(**kwargs)
 
 
 class Table(Furniture):
@@ -38,9 +38,9 @@ class Table(Furniture):
     coating = None    # покрытие
 
     def __init__(self, *kwargs):
-        Furniture.__init__(self, **kwargs)
-        self.number_of_legs = kwargs['number_of_legs']
-        self.coating = kwargs['coating']
+        self.number_of_legs = kwargs.pop('number_of_legs')
+        self.coating = kwargs.pop('coating')
+        super().__init__(**kwargs)
 
 
 class Cupboard(Furniture):
@@ -49,9 +49,9 @@ class Cupboard(Furniture):
     coating = None    # покрытие
 
     def __init__(self, **kwargs):
-        Furniture.__init__(self, **kwargs)
-        self.number_of_shelves = kwargs['number_of_shelves']
-        self.coating = kwargs['coating']
+        self.number_of_shelves = kwargs.pop('number_of_shelves')
+        self.coating = kwargs.pop('coating')
+        super().__init__(**kwargs)
 
 
 class Chair(Furniture):
@@ -60,9 +60,9 @@ class Chair(Furniture):
     number_of_legs = None    # количество ножек
 
     def __init__(self, **kwargs):
-        Furniture.__init__(self, **kwargs)
-        self.upholstery = kwargs['upholstery']
-        self.number_of_legs = kwargs['number_of_legs']
+        self.upholstery = kwargs.pop('upholstery')
+        self.number_of_legs = kwargs.pop('number_of_legs')
+        super().__init__(**kwargs)
 
 
 class Nightstand(Furniture):
@@ -71,19 +71,20 @@ class Nightstand(Furniture):
     number_of_boxes = None    # количество ящиков
 
     def __init__(self, **kwargs):
-        Furniture.__init__(self, **kwargs)
-        self.coating = kwargs['coating']
-        self.number_of_boxes = kwargs['number_of_boxes']
+        self.coating = kwargs.pop('coating')
+        self.number_of_boxes = kwargs.pop('number_of_boxes')
+        super().__init__(**kwargs)
 
 
-class Appliances(Properties, object):
+class Appliances(Properties):
 
     category = None    # категория
     provider = None    # производитель
 
     def __init__(self, **kwargs):
-        self.category = kwargs['category']
-        self.provider = kwargs['provider']
+        self.category = kwargs.pop('category')
+        self.provider = kwargs.pop('provider')
+        super().__init__(**kwargs)
 
 
 class Refrigerator(Appliances):
@@ -94,11 +95,11 @@ class Refrigerator(Appliances):
     capacity = None    # вместимость
 
     def __init__(self, **kwargs):
-        Appliances.__init__(self, **kwargs)
-        self.type = kwargs['type']
-        self.max_temp = kwargs['max_temp']
-        self.min_temp = kwargs['min_temp']
-        self.capacity = kwargs['capacity']
+        self.type = kwargs.pop('type')
+        self.max_temp = kwargs.pop('max_temp')
+        self.min_temp = kwargs.pop('min_temp')
+        self.capacity = kwargs.pop('capacity')
+        super().__init__(**kwargs)
 
 
 class Microwave(Appliances):
@@ -106,9 +107,9 @@ class Microwave(Appliances):
     power = None    # мощность
 
     def __init__(self, **kwargs):
-        Appliances.__init__(self, **kwargs)
-        self.power = kwargs['power']
-        self.clock = kwargs['clock']
+        self.power = kwargs.pop('power')
+        self.clock = kwargs.pop('clock')
+        super().__init__(**kwargs)
 
 
 class Stove(Appliances):
@@ -118,10 +119,10 @@ class Stove(Appliances):
     oven = None    # духовка
 
     def __init__(self, **kwargs):
-        Appliances.__init__(self, **kwargs)
-        self.type = kwargs['type']
-        self.number_of_burners = kwargs['number_of_burners']
-        self.oven = kwargs['oven']
+        self.type = kwargs.pop('type')
+        self.number_of_burners = kwargs.pop('number_of_burners')
+        self.oven = kwargs.pop('oven')
+        super().__init__(**kwargs)
 
 
 class Bath(Appliances):
@@ -130,9 +131,9 @@ class Bath(Appliances):
     shower = None    # душ
 
     def __init__(self, **kwargs):
-        Appliances.__init__(self, **kwargs)
-        self.volume = kwargs['volume']
-        self.shower = kwargs['shower']
+        self.volume = kwargs.pop('volume')
+        self.shower = kwargs.pop('shower')
+        super().__init__(**kwargs)
 
 
 class Sink(Appliances):
@@ -141,9 +142,9 @@ class Sink(Appliances):
     mirror = None    # зеркало
 
     def __init__(self, **kwargs):
-        Appliances.__init__(self, **kwargs)
-        self.mirror = kwargs['mirror']
-        self.mixer = kwargs['mixer']
+        self.mirror = kwargs.pop('mirror')
+        self.mixer = kwargs.pop('mixer')
+        super().__init__(**kwargs)
 
 
 class Toilet(Appliances):
@@ -151,30 +152,30 @@ class Toilet(Appliances):
     cover = None    # крышка
 
     def __init__(self, **kwargs):
-        Appliances.__init__(self, **kwargs)
-        self.cover = kwargs['cover']
+        self.cover = kwargs.pop('cover')
+        super().__init__(**kwargs)
 
 
-class Windows(Properties, object):
+class Windows(Properties):
 
     type = None    # окно / дверь
 
     def __init__(self, **kwargs):
-        Properties.__init__(self, **kwargs)
-        self.type = kwargs['type']
+        self.type = kwargs.pop('type')
+        super().__init__(**kwargs)
 
 
-class Room(Properties, object):
+class Room(Properties):
 
     furniture = None
     windows = None
     height = None
 
     def __init__(self, **kwargs):
-        Properties.__init__(self, **kwargs)
-        self.furniture = kwargs['furniture']
-        self.windows = kwargs['windows']
-        self.height = kwargs['height']
+        self.furniture = kwargs.pop('furniture')
+        self.windows = kwargs.pop('windows')
+        self.height = kwargs.pop('height')
+        super().__init__(**kwargs)
 
     @property
     def volume(self):
@@ -197,7 +198,7 @@ class Bedroom(Room):
     pass
 
 
-class House(object):
+class House(Properties):
 
     rooms = None
 
