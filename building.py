@@ -1,6 +1,3 @@
-import types
-
-
 class Properties:
 
     material = None
@@ -120,20 +117,21 @@ class Appliances(Properties):
     power = None    # мощность (W or Вт)
     mean_time = None    # среднее время работы (hours/day)
     weight = None
-    energy = None
 
     def __init__(self, **kwargs):
         self.power = float(kwargs.pop('power'))
+        self.mean_time = float(kwargs.pop('mean_time'))
         self.weight = float(kwargs.pop('weight'))
         self.category = kwargs.pop('category')
         self.provider = kwargs.pop('provider')
         super().__init__(**kwargs)
 
+    @property
     def energy_consumption(self):
         a = self.power * self.mean_time
         a /= 1000
         a *= 30    # kWh / month
-        self.energy = a
+        return a
 
 
 class Refrigerator(Appliances):
@@ -208,7 +206,11 @@ class Room(Properties):
 
     @property
     def energy(self):
-        pass
+        i = 0
+        for f in self.furniture:
+            if isinstance(f, Appliances):
+                i += f.energy_consumption
+        return i
 
 
 class Kitchen(Room):
@@ -242,36 +244,6 @@ class House(Properties):
     def total_weight(self):
         return sum([room.weight for room in self.rooms])
 
-
-house = House(rooms=[
-    Kitchen(furniture=[
-        Refrigerator(type='cool',
-                     max_temp=5,
-                     min_temp=-5,
-                     capacity=100,
-                     material='metal',
-                     coordinate={'top_left': (0, 0),
-                                 'bottom_right': (100, 80)},
-                     category='Kitchen',
-                     provider='Beko',
-                     weight=10,
-                     power=250,
-                     mean_time=5)
-        ],
-        windows=[
-            Windows(type='window',
-                    material='glass',
-                    coordinate={'top_left': (0, 0),
-                                'bottom_right': (100, 80)},
-                    weight=10)
-        ],
-        height=300,
-        material='brick',
-        coordinate={'top_left': (0, 0),
-                    'bottom_right': (600, 600)}
-    )
-])
-
-# print(type(house) == types)
-print('Volume of house:', house.total_volume)
-print('Weight of house:', house.total_weight)
+    @property
+    def total_energy(self):
+        return sum([room.energy for room in self.rooms])

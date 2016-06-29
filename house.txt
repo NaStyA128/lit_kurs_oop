@@ -1,0 +1,121 @@
+{
+    "House": [
+        {
+            "rooms": {
+                "Kitchen": [
+                    {
+                        "length": 600.0
+                    },
+                    {
+                        "coordinate": {
+                            "top_left": [
+                                0,
+                                0
+                            ],
+                            "bottom_right": [
+                                600,
+                                600
+                            ]
+                        }
+                    },
+                    {
+                        "width": 600.0
+                    },
+                    {
+                        "windows": {
+                            "Windows": [
+                                {
+                                    "type": "window"
+                                },
+                                {
+                                    "length": 100.0
+                                },
+                                {
+                                    "coordinate": {
+                                        "top_left": [
+                                            0,
+                                            0
+                                        ],
+                                        "bottom_right": [
+                                            100,
+                                            80
+                                        ]
+                                    }
+                                },
+                                {
+                                    "width": 80.0
+                                },
+                                {
+                                    "material": "glass"
+                                },
+                                {
+                                    "weight": 10.0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "furniture": {
+                            "Refrigerator": [
+                                {
+                                    "max_temp": 5.0
+                                },
+                                {
+                                    "min_temp": -5.0
+                                },
+                                {
+                                    "weight": 10.0
+                                },
+                                {
+                                    "power": 250.0
+                                },
+                                {
+                                    "type": "cool"
+                                },
+                                {
+                                    "mean_time": 5.0
+                                },
+                                {
+                                    "coordinate": {
+                                        "top_left": [
+                                            0,
+                                            0
+                                        ],
+                                        "bottom_right": [
+                                            100,
+                                            80
+                                        ]
+                                    }
+                                },
+                                {
+                                    "category": "Kitchen"
+                                },
+                                {
+                                    "provider": "Beko"
+                                },
+                                {
+                                    "length": 100.0
+                                },
+                                {
+                                    "width": 80.0
+                                },
+                                {
+                                    "capacity": 100.0
+                                },
+                                {
+                                    "material": "metal"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "height": 300.0
+                    },
+                    {
+                        "material": "brick"
+                    }
+                ]
+            }
+        }
+    ]
+}
