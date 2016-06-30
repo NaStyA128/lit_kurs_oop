@@ -171,6 +171,29 @@ class Stove(Appliances):
         super().__init__(**kwargs)
 
 
+"""
+class Heater(Appliances):
+
+    number_of_sections = None
+    gas = None    # расход газа в час для обогрева 1 м^2
+    # temperature = None
+
+    def __init__(self, **kwargs):
+        self.number_of_sections = int(kwargs.pop('number_of_sections'))
+        self.gas = float(kwargs.pop('gas'))
+        # self.temperature = float(kwargs.pop('temperature'))
+        super().__init__(**kwargs)
+        self.price
+
+    @property
+    def price(self):
+        global area_room
+        global price
+        price = self.gas * area_room * 6.879 * 30.0
+        return price
+"""
+
+
 class Windows(Properties):
 
     type = None    # окно / дверь
